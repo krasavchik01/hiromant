@@ -62,39 +62,141 @@
 
             <div id="resultScreen" class="screen">
                 <div class="result-content">
+                    <div class="particles" id="particles"></div>
+
                     <div class="result-photo">
                         <img id="capturedPhoto" alt="Ваша рука">
+                        <div class="photo-glow"></div>
                     </div>
 
                     <div class="prediction-container">
-                        <h2>🔮 Ваше предсказание</h2>
+                        <h2 class="glowing-title">🔮 Ваше предсказание</h2>
                         <div id="predictionText" class="prediction-text"></div>
 
+                        <!-- Детальный анализ линий -->
+                        <div class="lines-analysis">
+                            <h3>📋 Анализ линий ладони</h3>
+                            <div class="line-detail">
+                                <span class="line-icon">━</span>
+                                <div class="line-info">
+                                    <strong id="lifeLine">Линия жизни:</strong>
+                                    <p id="lifeLineDesc"></p>
+                                </div>
+                            </div>
+                            <div class="line-detail">
+                                <span class="line-icon">╱</span>
+                                <div class="line-info">
+                                    <strong id="headLine">Линия ума:</strong>
+                                    <p id="headLineDesc"></p>
+                                </div>
+                            </div>
+                            <div class="line-detail">
+                                <span class="line-icon">⌒</span>
+                                <div class="line-info">
+                                    <strong id="heartLine">Линия сердца:</strong>
+                                    <p id="heartLineDesc"></p>
+                                </div>
+                            </div>
+                            <div class="line-detail">
+                                <span class="line-icon">|</span>
+                                <div class="line-info">
+                                    <strong id="fateLine">Линия судьбы:</strong>
+                                    <p id="fateLineDesc"></p>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="life-aspects">
-                            <div class="aspect">
+                            <div class="aspect" data-aspect="love">
                                 <span class="aspect-icon">❤️</span>
                                 <span class="aspect-label">Любовь:</span>
                                 <span id="loveScore" class="aspect-value"></span>
+                                <div class="aspect-bar">
+                                    <div id="loveBar" class="aspect-bar-fill"></div>
+                                </div>
                             </div>
-                            <div class="aspect">
+                            <div class="aspect" data-aspect="career">
                                 <span class="aspect-icon">💼</span>
                                 <span class="aspect-label">Карьера:</span>
                                 <span id="careerScore" class="aspect-value"></span>
+                                <div class="aspect-bar">
+                                    <div id="careerBar" class="aspect-bar-fill"></div>
+                                </div>
                             </div>
-                            <div class="aspect">
+                            <div class="aspect" data-aspect="luck">
                                 <span class="aspect-icon">🍀</span>
                                 <span class="aspect-label">Удача:</span>
                                 <span id="luckScore" class="aspect-value"></span>
+                                <div class="aspect-bar">
+                                    <div id="luckBar" class="aspect-bar-fill"></div>
+                                </div>
                             </div>
+                            <div class="aspect" data-aspect="health">
+                                <span class="aspect-icon">💪</span>
+                                <span class="aspect-label">Здоровье:</span>
+                                <span id="healthScore" class="aspect-value"></span>
+                                <div class="aspect-bar">
+                                    <div id="healthBar" class="aspect-bar-fill"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Дополнительная информация -->
+                        <div class="additional-info">
+                            <div class="info-card">
+                                <div class="info-icon">🔢</div>
+                                <h4>Число судьбы</h4>
+                                <div id="destinyNumber" class="info-value"></div>
+                                <p id="destinyNumberDesc" class="info-desc"></p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-icon">💎</div>
+                                <h4>Камень-талисман</h4>
+                                <div id="luckyStone" class="info-value"></div>
+                                <p id="luckyStoneDesc" class="info-desc"></p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-icon">🎨</div>
+                                <h4>Цвета удачи</h4>
+                                <div id="luckyColors" class="color-palette"></div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-icon">📅</div>
+                                <h4>Благоприятные дни</h4>
+                                <div id="luckyDays" class="info-value"></div>
+                            </div>
+                        </div>
+
+                        <!-- Сюрприз: Персональный талисман -->
+                        <div class="talisman-section">
+                            <h3 class="glowing-title">✨ Ваш персональный цифровой талисман</h3>
+                            <div class="talisman-container">
+                                <canvas id="talismanCanvas" width="200" height="200"></canvas>
+                                <div class="talisman-info">
+                                    <p id="talismanDescription"></p>
+                                    <button class="download-talisman-btn" onclick="downloadTalisman()">
+                                        💾 Сохранить талисман
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Совет на месяц -->
+                        <div class="monthly-advice">
+                            <h3>💫 Совет на этот месяц</h3>
+                            <p id="monthlyAdvice"></p>
                         </div>
                     </div>
 
                     <div class="result-actions">
                         <button class="new-reading-button" onclick="newReading()">
-                            НОВОЕ ПРЕДСКАЗАНИЕ
+                            🔄 НОВОЕ ПРЕДСКАЗАНИЕ
                         </button>
                         <button class="share-button" onclick="shareResult()">
                             📤 ПОДЕЛИТЬСЯ
+                        </button>
+                        <button class="print-button" onclick="printResult()">
+                            🖨️ РАСПЕЧАТАТЬ
                         </button>
                     </div>
                 </div>
