@@ -2,6 +2,7 @@
 let videoStream = null;
 let capturedImageData = null;
 let particlesArray = [];
+let numerologyData = null;
 
 // Переключение экранов
 function showScreen(screenId) {
@@ -72,7 +73,10 @@ function capturePhoto() {
 async function analyzeHand(imageData) {
     try {
         const prediction = await generatePrediction(imageData);
-        displayResult(prediction);
+        // Сохраняем предсказание для использования после ввода даты рождения
+        window.palmPrediction = prediction;
+        // Показываем экран ввода даты рождения
+        showScreen('birthdateScreen');
     } catch (error) {
         console.error('Ошибка анализа:', error);
         showError('Не удалось проанализировать изображение. Попробуйте еще раз.');
@@ -287,6 +291,9 @@ function displayResult(data) {
     // Создание частиц
     createParticles();
 
+    // Отображение нумерологического анализа, если есть данные
+    displayNumerologyAnalysis();
+
     showScreen('resultScreen');
 }
 
@@ -483,5 +490,232 @@ window.addEventListener('error', (event) => {
     }
 });
 
+// ========== НУМЕРОЛОГИЯ ==========
+
+// Расчет числа (сложение цифр до однозначного)
+function reduceToSingleDigit(num) {
+    // Сохраняем мастер-числа 11, 22, 33
+    if (num === 11 || num === 22 || num === 33) {
+        return num;
+    }
+
+    while (num > 9) {
+        num = num.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+        if (num === 11 || num === 22 || num === 33) {
+            return num;
+        }
+    }
+    return num;
+}
+
+// Расчет числа жизненного пути
+function calculateLifePathNumber(day, month, year) {
+    const dayNum = reduceToSingleDigit(day);
+    const monthNum = reduceToSingleDigit(month);
+    const yearNum = reduceToSingleDigit(year);
+
+    const total = dayNum + monthNum + yearNum;
+    return reduceToSingleDigit(total);
+}
+
+// Расчет персонального года
+function calculatePersonalYear(day, month) {
+    const currentYear = new Date().getFullYear();
+    const dayNum = reduceToSingleDigit(day);
+    const monthNum = reduceToSingleDigit(month);
+    const yearNum = reduceToSingleDigit(currentYear);
+
+    const total = dayNum + monthNum + yearNum;
+    return reduceToSingleDigit(total);
+}
+
+// Описания чисел жизненного пути
+const lifePathDescriptions = {
+    1: {
+        main: "Вы — прирожденный лидер и первопроходец. Независимость, амбиции и инновационное мышление определяют ваш путь. Вы не боитесь идти своим путем и часто становитесь источником вдохновения для других. Ваша сила в уверенности и способности принимать быстрые решения.",
+        personality: "Харизматичная личность с сильной волей. Вы естественным образом притягиваете внимание и способны мотивировать окружающих.",
+        soul: "Ваша душа жаждет свободы и самовыражения. Вы стремитесь оставить свой уникальный след в мире.",
+        destiny: "Судьба ведет вас к лидерским позициям. Вы рождены, чтобы вести других к новым высотам."
+    },
+    2: {
+        main: "Дипломат и миротворец. Вы обладаете уникальной способностью видеть обе стороны любой ситуации. Партнерство и сотрудничество играют ключевую роль в вашей жизни. Ваша чувствительность и интуиция помогают создавать гармонию вокруг себя.",
+        personality: "Деликатная и чуткая натура. Вы умеете находить общий язык с людьми и создавать атмосферу доверия.",
+        soul: "Душа ищет гармонии и баланса. Любовь и понимание — ваши главные ценности.",
+        destiny: "Ваше предназначение — объединять людей и создавать мосты взаимопонимания."
+    },
+    3: {
+        main: "Творец и коммуникатор. Ваша жизнь наполнена радостью, творчеством и самовыражением. Вы обладаете природным даром вдохновлять и развлекать других. Оптимизм и энтузиазм — ваши лучшие спутники на жизненном пути.",
+        personality: "Яркая, харизматичная личность. Вы — душа компании и источник позитивной энергии.",
+        soul: "Ваша душа стремится к творчеству и самовыражению. Красота и искусство наполняют вас энергией.",
+        destiny: "Судьба призывает вас делиться своими талантами с миром и вдохновлять других."
+    },
+    4: {
+        main: "Строитель и организатор. Стабильность, порядок и практичность — основа вашей жизни. Вы создаете прочный фундамент для себя и других. Трудолюбие и надежность делают вас незаменимым во многих сферах жизни.",
+        personality: "Надежная и практичная личность. Люди доверяют вам и знают, что на вас можно положиться.",
+        soul: "Душа ценит порядок и стабильность. Вы находите удовлетворение в создании чего-то долговечного.",
+        destiny: "Ваше предназначение — создавать прочные структуры и системы, которые служат долго."
+    },
+    5: {
+        main: "Искатель приключений и путешественник. Свобода, перемены и новый опыт — вот что движет вами. Вы не боитесь рисковать и постоянно расширяете свои горизонты. Ваша адаптивность помогает процветать в любых условиях.",
+        personality: "Динамичная и непредсказуемая личность. Вы приносите свежий ветер перемен везде, где появляетесь.",
+        soul: "Душа жаждет свободы и новых впечатлений. Рутина — ваш главный враг.",
+        destiny: "Судьба ведет вас через разнообразный опыт, делая вас мудрее и свободнее."
+    },
+    6: {
+        main: "Заботливый и ответственный. Семья, дом и служение другим — ваши приоритеты. Вы обладаете природным даром целительства и умением создавать уют. Любовь и гармония в отношениях имеют первостепенное значение.",
+        personality: "Теплая и заботливая личность. Вы создаете атмосферу любви и принятия вокруг себя.",
+        soul: "Душа стремится помогать и заботиться. Вы находите счастье в служении другим.",
+        destiny: "Ваше предназначение — создавать гармонию и помогать другим находить свой путь."
+    },
+    7: {
+        main: "Мистик и философ. Вы ищете глубинные истины и духовное понимание. Интуиция и аналитический ум помогают вам проникать в суть вещей. Одиночество для вас — время для размышлений и роста.",
+        personality: "Загадочная и интроспективная личность. Вы видите то, что скрыто от других.",
+        soul: "Душа ищет духовного просветления. Материальное имеет для вас второстепенное значение.",
+        destiny: "Судьба ведет вас к глубоким знаниям и духовному пробуждению."
+    },
+    8: {
+        main: "Магнат и материалист. Сила, власть и материальное изобилие — ваши цели. Вы обладаете природным деловым чутьем и способностью управлять крупными проектами. Успех и достижения мотивируют вас двигаться вперед.",
+        personality: "Авторитетная и амбициозная личность. Вы излучаете силу и уверенность.",
+        soul: "Душа стремится к материальным достижениям и признанию. Вы хотите оставить наследие.",
+        destiny: "Ваше предназначение — достичь финансового успеха и использовать его для блага."
+    },
+    9: {
+        main: "Гуманист и идеалист. Вы видите общую картину и заботитесь о благе всего человечества. Сострадание, мудрость и альтруизм определяют ваш путь. Вы завершаете циклы и помогаете другим трансформироваться.",
+        personality: "Мудрая и сострадательная личность. Вы понимаете людей на глубоком уровне.",
+        soul: "Душа стремится служить высшим целям. Вы хотите сделать мир лучше.",
+        destiny: "Ваше предназначение — быть светочем мудрости и помогать человечеству эволюционировать."
+    },
+    11: {
+        main: "Духовный посланник и вдохновитель. Мастер-число 11 наделяет вас особой интуицией и способностью вдохновлять массы. Вы — проводник высших энергий и идей. Ваша чувствительность позволяет воспринимать тонкие планы реальности.",
+        personality: "Харизматичная личность с мощной энергетикой. Вы естественный лидер духовного движения.",
+        soul: "Душа связана с высшим сознанием. Вы чувствуете призвание служить свету.",
+        destiny: "Судьба призывает вас освещать путь другим и трансформировать сознание человечества."
+    },
+    22: {
+        main: "Мастер-строитель. Число 22 дает способность воплощать грандиозные идеи в реальность. Вы сочетаете духовное видение с практическими навыками. Ваш потенциал безграничен — вы можете создавать империи и изменять мир.",
+        personality: "Могущественная личность с невероятным потенциалом. Вы мыслите масштабно.",
+        soul: "Душа стремится создать что-то значимое и долговечное. Вы хотите оставить след в истории.",
+        destiny: "Ваше предназначение — реализовать великие проекты, которые изменят мир к лучшему."
+    },
+    33: {
+        main: "Мастер-учитель и целитель. Самое редкое мастер-число. Вы воплощаете безусловную любовь и служение. Ваша жертвенность и желание помогать вдохновляют окружающих. Вы несете свет и исцеление миру.",
+        personality: "Просветленная личность, излучающая любовь. Вы — живой пример служения.",
+        soul: "Душа посвящена служению высшему благу. Вы чувствуете боль мира и хотите исцелить его.",
+        destiny: "Ваше предназначение — быть духовным учителем и целителем для всего человечества."
+    }
+};
+
+// Описания персонального года
+const personalYearDescriptions = {
+    1: "Год новых начинаний! Время сеять семена для будущего. Проявляйте инициативу и смело беритесь за новые проекты.",
+    2: "Год партнерства и сотрудничества. Фокусируйтесь на отношениях и дипломатии. Терпение принесет плоды.",
+    3: "Год творчества и самовыражения! Время реализовать творческие идеи и наслаждаться жизнью.",
+    4: "Год работы и строительства фундамента. Дисциплина и организация приведут к стабильности.",
+    5: "Год перемен и свободы! Ожидайте неожиданных возможностей. Время путешествовать и исследовать.",
+    6: "Год семьи и ответственности. Домашние дела требуют внимания. Время для любви и заботы.",
+    7: "Год духовного роста и самопознания. Время для медитации, обучения и внутренней работы.",
+    8: "Год изобилия и достижений! Финансовый успех и признание близки. Действуйте уверенно.",
+    9: "Год завершения и освобождения. Отпустите старое, чтобы освободить место для нового.",
+    11: "Мастер-год духовного пробуждения. Ваша интуиция на пике. Следуйте внутреннему голосу.",
+    22: "Мастер-год реализации. Ваши мечты могут стать реальностью. Думайте масштабно!",
+    33: "Мастер-год служения. Время максимально помогать другим и распространять любовь."
+};
+
+// Совместимость чисел
+const compatibilityData = {
+    1: { best: [1, 3, 5], difficult: [6, 8] },
+    2: { best: [2, 4, 6, 8], difficult: [1, 5] },
+    3: { best: [1, 3, 5, 9], difficult: [4, 7] },
+    4: { best: [2, 4, 6, 8], difficult: [3, 5] },
+    5: { best: [1, 3, 5, 7], difficult: [2, 4] },
+    6: { best: [2, 4, 6, 9], difficult: [5] },
+    7: { best: [5, 7], difficult: [3] },
+    8: { best: [2, 4, 6, 8], difficult: [1] },
+    9: { best: [3, 6, 9], difficult: [] },
+    11: { best: [2, 6, 11], difficult: [] },
+    22: { best: [4, 22], difficult: [] },
+    33: { best: [6, 33], difficult: [] }
+};
+
+// Рассчитать нумерологию
+function calculateNumerology() {
+    const day = parseInt(document.getElementById('birthDay').value);
+    const month = parseInt(document.getElementById('birthMonth').value);
+    const year = parseInt(document.getElementById('birthYear').value);
+
+    // Валидация
+    if (!day || !month || !year || day < 1 || day > 31 || month < 1 || month > 12 || year < 1900 || year > 2024) {
+        alert('Пожалуйста, введите корректную дату рождения');
+        return;
+    }
+
+    // Расчет чисел
+    const lifePathNumber = calculateLifePathNumber(day, month, year);
+    const personalYear = calculatePersonalYear(day, month);
+
+    // Числа личности, души и судьбы (упрощенная версия)
+    const personalityNumber = reduceToSingleDigit(day);
+    const soulNumber = reduceToSingleDigit(month);
+    const destinyNumber = reduceToSingleDigit(year);
+
+    // Сохраняем данные
+    numerologyData = {
+        lifePathNumber,
+        personalYear,
+        personalityNumber,
+        soulNumber,
+        destinyNumber,
+        birthDate: { day, month, year }
+    };
+
+    // Показываем результаты
+    if (window.palmPrediction) {
+        displayResult(window.palmPrediction);
+    }
+}
+
+// Пропустить нумерологию
+function skipNumerology() {
+    numerologyData = null;
+    if (window.palmPrediction) {
+        displayResult(window.palmPrediction);
+    }
+}
+
+// Отобразить нумерологический анализ
+function displayNumerologyAnalysis() {
+    if (!numerologyData) return;
+
+    const section = document.getElementById('numerologySection');
+    section.style.display = 'block';
+
+    const data = lifePathDescriptions[numerologyData.lifePathNumber];
+
+    // Число жизненного пути
+    document.getElementById('lifePathNumber').textContent = numerologyData.lifePathNumber;
+    document.getElementById('lifePathDesc').textContent = data.main;
+
+    // Детальный анализ
+    document.getElementById('personalityNumber').textContent = numerologyData.personalityNumber;
+    document.getElementById('personalityDesc').textContent = lifePathDescriptions[numerologyData.personalityNumber]?.personality || '';
+
+    document.getElementById('soulNumber').textContent = numerologyData.soulNumber;
+    document.getElementById('soulDesc').textContent = lifePathDescriptions[numerologyData.soulNumber]?.soul || '';
+
+    document.getElementById('destinyNumberFull').textContent = numerologyData.destinyNumber;
+    document.getElementById('destinyDescFull').textContent = lifePathDescriptions[numerologyData.destinyNumber]?.destiny || '';
+
+    // Совместимость
+    const compat = compatibilityData[numerologyData.lifePathNumber];
+    document.getElementById('compatibilityDesc').textContent =
+        `Ваше число жизненного пути ${numerologyData.lifePathNumber} определяет особые энергетические связи с другими числами.`;
+    document.getElementById('bestMatches').textContent = compat.best.join(', ');
+    document.getElementById('difficultMatches').textContent = compat.difficult.length > 0 ? compat.difficult.join(', ') : 'Нет сложных сочетаний';
+
+    // Персональный год
+    document.getElementById('personalYear').textContent = numerologyData.personalYear;
+    document.getElementById('personalYearDesc').textContent = personalYearDescriptions[numerologyData.personalYear];
+}
+
 // Инициализация
-console.log('🔮 Приложение хиромантии загружено!');
+console.log('🔮 Приложение хиромантии и нумерологии загружено!');

@@ -9,8 +9,8 @@
 <body>
     <div class="vending-machine">
         <div class="machine-header">
-            <h1>🔮 ХИРОМАНТИЯ</h1>
-            <p class="subtitle">Узнай свое будущее по линиям руки</p>
+            <h1>🔮 ХИРОМАНТИЯ И НУМЕРОЛОГИЯ</h1>
+            <p class="subtitle">Узнай свое будущее по линиям руки и дате рождения</p>
         </div>
 
         <div class="screen-container">
@@ -56,6 +56,44 @@
                         <span class="star">✨</span>
                         <span class="star">⭐</span>
                         <span class="star">✨</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="birthdateScreen" class="screen">
+                <div class="birthdate-content">
+                    <div class="numerology-symbol">🔢</div>
+                    <h2>Нумерологический анализ</h2>
+                    <p class="birthdate-description">Введите дату рождения для расчета вашего числа жизненного пути</p>
+
+                    <div class="birthdate-form">
+                        <div class="date-input-group">
+                            <label for="birthDay">День</label>
+                            <input type="number" id="birthDay" min="1" max="31" placeholder="ДД" required>
+                        </div>
+                        <div class="date-input-group">
+                            <label for="birthMonth">Месяц</label>
+                            <input type="number" id="birthMonth" min="1" max="12" placeholder="ММ" required>
+                        </div>
+                        <div class="date-input-group">
+                            <label for="birthYear">Год</label>
+                            <input type="number" id="birthYear" min="1900" max="2024" placeholder="ГГГГ" required>
+                        </div>
+                    </div>
+
+                    <div class="birthdate-info">
+                        <p>💫 Нумерология раскроет тайны вашей судьбы</p>
+                        <p>✨ Узнайте ваше число жизненного пути</p>
+                        <p>🔮 Получите персональный анализ</p>
+                    </div>
+
+                    <div class="birthdate-controls">
+                        <button class="calculate-button" onclick="calculateNumerology()">
+                            🔮 РАССЧИТАТЬ
+                        </button>
+                        <button class="skip-button" onclick="skipNumerology()">
+                            ПРОПУСТИТЬ
+                        </button>
                     </div>
                 </div>
             </div>
@@ -178,6 +216,62 @@
                                         💾 Сохранить талисман
                                     </button>
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- Нумерологический анализ -->
+                        <div id="numerologySection" class="numerology-section" style="display: none;">
+                            <h3 class="glowing-title">🔢 Нумерологический анализ</h3>
+
+                            <div class="numerology-main">
+                                <div class="life-path-number">
+                                    <div class="big-number-display">
+                                        <span id="lifePathNumber"></span>
+                                    </div>
+                                    <h4>Число жизненного пути</h4>
+                                    <p id="lifePathDesc" class="numerology-desc"></p>
+                                </div>
+                            </div>
+
+                            <div class="numerology-details">
+                                <div class="numerology-card">
+                                    <div class="numerology-card-icon">👤</div>
+                                    <h4>Число личности</h4>
+                                    <div class="numerology-number" id="personalityNumber"></div>
+                                    <p id="personalityDesc"></p>
+                                </div>
+                                <div class="numerology-card">
+                                    <div class="numerology-card-icon">💭</div>
+                                    <h4>Число души</h4>
+                                    <div class="numerology-number" id="soulNumber"></div>
+                                    <p id="soulDesc"></p>
+                                </div>
+                                <div class="numerology-card">
+                                    <div class="numerology-card-icon">🎯</div>
+                                    <h4>Число судьбы</h4>
+                                    <div class="numerology-number" id="destinyNumberFull"></div>
+                                    <p id="destinyDescFull"></p>
+                                </div>
+                            </div>
+
+                            <div class="numerology-compatibility">
+                                <h4>🤝 Совместимость чисел</h4>
+                                <p id="compatibilityDesc"></p>
+                                <div class="compatibility-matches">
+                                    <div>
+                                        <strong>Лучше всего подходят:</strong>
+                                        <span id="bestMatches"></span>
+                                    </div>
+                                    <div>
+                                        <strong>Сложные отношения:</strong>
+                                        <span id="difficultMatches"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="numerology-forecast">
+                                <h4>📅 Персональный год: <span id="personalYear"></span></h4>
+                                <p id="personalYearDesc"></p>
                             </div>
                         </div>
 

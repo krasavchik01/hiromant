@@ -986,6 +986,290 @@ body::before {
     50% { opacity: 0.2; }
 }
 
+/* Birthdate Screen - Numerology Input */
+.birthdate-content {
+    text-align: center;
+    color: #fff;
+    width: 100%;
+}
+
+.numerology-symbol {
+    font-size: 7em;
+    margin-bottom: 20px;
+    animation: floatRotate 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.6));
+}
+
+.birthdate-content h2 {
+    font-size: 2em;
+    margin-bottom: 15px;
+    color: var(--gold);
+    text-shadow: 0 0 20px var(--gold-glow);
+}
+
+.birthdate-description {
+    color: #cbd5e0;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+
+.birthdate-form {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.date-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.date-input-group label {
+    color: var(--gold);
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.date-input-group input {
+    width: 80px;
+    padding: 12px;
+    font-size: 1.2em;
+    text-align: center;
+    border: 2px solid var(--gold);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.date-input-group input:focus {
+    outline: none;
+    border-color: #a855f7;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+}
+
+.date-input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.birthdate-info {
+    margin: 25px 0;
+    padding: 20px;
+    background: rgba(139, 92, 246, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.birthdate-info p {
+    color: #e0e7ff;
+    margin: 8px 0;
+    font-size: 1.05em;
+}
+
+.birthdate-controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.calculate-button {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: #fff;
+    border: none;
+    padding: 18px 40px;
+    font-size: 1.3em;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+    flex: 1;
+    min-width: 200px;
+}
+
+.calculate-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+}
+
+.skip-button {
+    background: rgba(255, 255, 255, 0.1);
+    color: #cbd5e0;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 18px 30px;
+    font-size: 1.1em;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+}
+
+.skip-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Numerology Section in Results */
+.numerology-section {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.25) 0%, rgba(99, 102, 241, 0.25) 100%);
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+    border: 2px solid rgba(139, 92, 246, 0.4);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    animation: containerSlideUp 0.8s ease;
+}
+
+.numerology-main {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.life-path-number {
+    background: rgba(139, 92, 246, 0.3);
+    padding: 30px;
+    border-radius: 20px;
+    border: 2px solid var(--gold);
+}
+
+.big-number-display {
+    font-size: 6em;
+    font-weight: bold;
+    color: var(--gold);
+    text-shadow: 0 0 30px var(--gold-glow), 0 0 60px var(--gold-glow);
+    margin-bottom: 15px;
+    animation: titlePulse 3s ease-in-out infinite;
+}
+
+.life-path-number h4 {
+    color: #cbd5e0;
+    font-size: 1.3em;
+    margin-bottom: 15px;
+}
+
+.numerology-desc {
+    color: #e0e7ff;
+    line-height: 1.8;
+    font-size: 1.1em;
+    text-align: justify;
+}
+
+.numerology-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.numerology-card {
+    background: rgba(15, 23, 42, 0.6);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.numerology-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+}
+
+.numerology-card-icon {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.numerology-card h4 {
+    color: #cbd5e0;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.numerology-number {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: var(--gold);
+    margin: 15px 0;
+    text-shadow: 0 0 15px var(--gold-glow);
+}
+
+.numerology-card p {
+    color: #94a3b8;
+    font-size: 0.95em;
+    line-height: 1.5;
+}
+
+.numerology-compatibility {
+    background: rgba(15, 23, 42, 0.6);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    margin-bottom: 20px;
+}
+
+.numerology-compatibility h4 {
+    color: var(--gold);
+    margin-bottom: 12px;
+    font-size: 1.3em;
+}
+
+.numerology-compatibility p {
+    color: #cbd5e0;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.compatibility-matches {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.compatibility-matches div {
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.compatibility-matches strong {
+    color: #fff;
+    margin-right: 8px;
+}
+
+.compatibility-matches span {
+    color: var(--gold);
+    font-weight: bold;
+}
+
+.numerology-forecast {
+    background: rgba(139, 92, 246, 0.3);
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid var(--gold);
+    text-align: center;
+}
+
+.numerology-forecast h4 {
+    color: var(--gold);
+    font-size: 1.4em;
+    margin-bottom: 12px;
+}
+
+.numerology-forecast p {
+    color: #e0e7ff;
+    line-height: 1.7;
+    font-size: 1.05em;
+}
+
 /* Scrollbar Styling */
 .result-content::-webkit-scrollbar {
     width: 8px;
