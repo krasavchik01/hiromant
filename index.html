@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Хиромантия - Предсказание по руке</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="vending-machine">
+        <div class="machine-header">
+            <h1>🔮 ХИРОМАНТИЯ</h1>
+            <p class="subtitle">Узнай свое будущее по линиям руки</p>
+        </div>
+
+        <div class="screen-container">
+            <div id="welcomeScreen" class="screen active">
+                <div class="welcome-content">
+                    <div class="mystical-symbol">✋</div>
+                    <h2>Добро пожаловать!</h2>
+                    <p>Положите руку на стекло и нажмите кнопку</p>
+                    <button class="start-button" onclick="startReading()">
+                        НАЧАТЬ ПРЕДСКАЗАНИЕ
+                    </button>
+                </div>
+            </div>
+
+            <div id="cameraScreen" class="screen">
+                <div class="camera-content">
+                    <video id="video" autoplay playsinline></video>
+                    <canvas id="canvas" style="display: none;"></canvas>
+
+                    <div class="camera-overlay">
+                        <div class="hand-guide">
+                            <p>Поместите ладонь в рамку</p>
+                        </div>
+                    </div>
+
+                    <div class="camera-controls">
+                        <button class="capture-button" onclick="capturePhoto()">
+                            📸 СДЕЛАТЬ ФОТО
+                        </button>
+                        <button class="cancel-button" onclick="cancelReading()">
+                            ОТМЕНА
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="processingScreen" class="screen">
+                <div class="processing-content">
+                    <div class="loader"></div>
+                    <h2>Анализируем линии судьбы...</h2>
+                    <p class="processing-text">Пожалуйста, подождите</p>
+                    <div class="mystical-animation">
+                        <span class="star">✨</span>
+                        <span class="star">⭐</span>
+                        <span class="star">✨</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="resultScreen" class="screen">
+                <div class="result-content">
+                    <div class="result-photo">
+                        <img id="capturedPhoto" alt="Ваша рука">
+                    </div>
+
+                    <div class="prediction-container">
+                        <h2>🔮 Ваше предсказание</h2>
+                        <div id="predictionText" class="prediction-text"></div>
+
+                        <div class="life-aspects">
+                            <div class="aspect">
+                                <span class="aspect-icon">❤️</span>
+                                <span class="aspect-label">Любовь:</span>
+                                <span id="loveScore" class="aspect-value"></span>
+                            </div>
+                            <div class="aspect">
+                                <span class="aspect-icon">💼</span>
+                                <span class="aspect-label">Карьера:</span>
+                                <span id="careerScore" class="aspect-value"></span>
+                            </div>
+                            <div class="aspect">
+                                <span class="aspect-icon">🍀</span>
+                                <span class="aspect-label">Удача:</span>
+                                <span id="luckScore" class="aspect-value"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-actions">
+                        <button class="new-reading-button" onclick="newReading()">
+                            НОВОЕ ПРЕДСКАЗАНИЕ
+                        </button>
+                        <button class="share-button" onclick="shareResult()">
+                            📤 ПОДЕЛИТЬСЯ
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="errorScreen" class="screen">
+                <div class="error-content">
+                    <div class="error-icon">⚠️</div>
+                    <h2>Что-то пошло не так</h2>
+                    <p id="errorMessage">Пожалуйста, попробуйте снова</p>
+                    <button class="retry-button" onclick="retry()">
+                        ПОПРОБОВАТЬ СНОВА
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="machine-footer">
+            <div class="footer-lights">
+                <span class="light"></span>
+                <span class="light"></span>
+                <span class="light"></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
